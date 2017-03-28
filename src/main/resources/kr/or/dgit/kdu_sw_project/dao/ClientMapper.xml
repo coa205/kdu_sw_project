@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.dgit.kdu_sw_project.dao.ClientMapper">
+
+	<sql id="selectSql">
+		select * from client
+	</sql>
+	
+	<sql id="whereSql">
+		where clnt_code = #{clntCode}
+	</sql>
+
+	<select id="selectAllClnt" parameterType="Client" resultType="Client">
+		<include refid="selectSql"/>
+	</select>
+
+	<select id="selectByNoClnt" parameterType="Client" resultType="Client">
+		<include refid="selectSql"/>
+		<include refid="whereSql"/>
+	</select>
+	
+	<insert id="insertRowClnt" parameterType="Client">
+		INSERT INTO client VALUES (#{clntCode},#{clntName},#{clntAddr},#{clntTel},#{clntIsExist})
+	</insert>
+	
+	<update id="updateRowClnt" parameterType="Client">
+		UPDATE client
+		<set>
+			<if test="clntCode != null">clnt_code=#{clntCode},</if>
+			<if test="clntName != null">clnt_name=#{clntName},</if>
+			<if test="clntAddr != null">clnt_addr=#{clntAddr},</if>
+			<if test="clntTel != null">clnt_tel=#{clntTel},</if>
+			<if test="clntIsExist != null">clnt_isExist=#{clntIsExist},</if>
+		</set>
+		<include refid="whereSql"/>
+	</update>
+	
+	<update id="existClnt" parameterType="Client">
+		UPDATE client SET clnt_isExist=FALSE WHERE clnt_code=#{clntCode}
+	</update>
+	
+	<select id="selectClntNameAll" resultType="Client">
+		select clntName from client
+	</select>
+
+</mapper>

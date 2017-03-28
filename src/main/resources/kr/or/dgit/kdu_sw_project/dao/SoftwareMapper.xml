@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.dgit.kdu_sw_project.dao.SoftwareMapper">
+
+	<resultMap type="Software" id="SoftwareResult">
+		<id property="swCode" column="sw_code"/>
+		<result property="groupCode" column="group_code"/>
+		<result property="swName" column="sw_name"/>
+		<result property="salePrice" column="sale_price"/>
+		<result property="swInven" column="sw_inven"/>
+		<result property="swIssale" column="sw_issale"/>
+	</resultMap>
+	
+	<sql id="selectSql">
+		select * from software
+	</sql>
+	
+	<sql id="whereSql">
+		where sw_code = #{swCode}
+	</sql>
+	
+	<select id="selectAllSw" resultMap="SoftwareResult">
+		<include refid="selectSql"/>
+	</select>
+	
+	<select id="selectByNoSw" parameterType="Software" resultMap="SoftwareResult">
+		<include refid="selectSql"/>
+		<include refid="whereSql"/>
+	</select>
+	
+	<select id="selectSwNameAll" resultType="Software">
+		select swName from software
+	</select>
+	
+	<insert id="insertRowSw" parameterType="Software">
+		INSERT INTO software(sw_code, group_code, sw_name, sale_price, sw_inven, sw_issale)
+		VALUES(#{swCode}, #{groupCode}, #{swName}, #{salePrice}, #{swInven}, #{swIssale})
+	</insert>
+	
+	<update id="updateRowSw" parameterType="Software">
+		UPDATE software
+		<set>
+			<if test="groupCode != null">group_code=#{groupCode},</if>
+			<if test="swName != null">sw_name=#{swName},</if>
+			<if test="salePrice != null">sale_price=#{salePrice},</if>
+			<if test="swInven != null">sw_inven=#{swInven},</if>
+			<if test="swIssale != null">sw_issale=#{swIssale},</if>
+		</set>
+		<include refid="whereSql"/>
+	</update>
+	
+	<update id="saleStopSw" parameterType="Software">
+		UPDATE software SET sw_issale=#{swIssale}
+		<include refid="whereSql"/>
+	</update>
+</mapper>

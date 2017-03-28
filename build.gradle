@@ -25,7 +25,7 @@ dependencies {
 
 
 jar{
-	mainClassName='kr.or.digt.sw_project.SwMain'
+	mainClassName='kr.or.dgit.kdu_sw_project.SwMain'
 	baseName='SwMain'
 	appendix='bin'
 	version =1.0
